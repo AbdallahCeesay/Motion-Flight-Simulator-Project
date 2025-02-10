@@ -1,0 +1,17 @@
+C:\MSFS SDK\Samples\VisualStudio\SimvarWatcher\bin\x64\Debug\Simvars.exe.config
+C:\MSFS SDK\Samples\VisualStudio\SimvarWatcher\bin\x64\Debug\Simvars.exe
+C:\MSFS SDK\Samples\VisualStudio\SimvarWatcher\bin\x64\Debug\Simvars.pdb
+C:\MSFS SDK\Samples\VisualStudio\SimvarWatcher\bin\x64\Debug\Microsoft.FlightSimulator.SimConnect.dll
+C:\MSFS SDK\Samples\VisualStudio\SimvarWatcher\obj\x64\Debug\Simvars.csproj.AssemblyReference.cache
+C:\MSFS SDK\Samples\VisualStudio\SimvarWatcher\obj\x64\Debug\MainWindow.g.cs
+C:\MSFS SDK\Samples\VisualStudio\SimvarWatcher\obj\x64\Debug\App.g.cs
+C:\MSFS SDK\Samples\VisualStudio\SimvarWatcher\obj\x64\Debug\Simvars_MarkupCompile.cache
+C:\MSFS SDK\Samples\VisualStudio\SimvarWatcher\obj\x64\Debug\Simvars_MarkupCompile.lref
+C:\MSFS SDK\Samples\VisualStudio\SimvarWatcher\obj\x64\Debug\MainWindow.baml
+C:\MSFS SDK\Samples\VisualStudio\SimvarWatcher\obj\x64\Debug\Simvars.g.resources
+C:\MSFS SDK\Samples\VisualStudio\SimvarWatcher\obj\x64\Debug\Simvars.Properties.Resources.resources
+C:\MSFS SDK\Samples\VisualStudio\SimvarWatcher\obj\x64\Debug\Simvars.csproj.GenerateResource.cache
+C:\MSFS SDK\Samples\VisualStudio\SimvarWatcher\obj\x64\Debug\Simvars.csproj.CoreCompileInputs.cache
+C:\MSFS SDK\Samples\VisualStudio\SimvarWatcher\obj\x64\Debug\Simvars.csproj.Up2Date
+C:\MSFS SDK\Samples\VisualStudio\SimvarWatcher\obj\x64\Debug\Simvars.exe
+C:\MSFS SDK\Samples\VisualStudio\SimvarWatcher\obj\x64\Debug\Simvars.pdb

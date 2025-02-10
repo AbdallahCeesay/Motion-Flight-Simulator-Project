@@ -1,0 +1,57 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\MSFS SDK\\Samples\\VisualStudio\\SimvarWatcher\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{AE5B4E28-2877-410C-A5EC-A828E3F3BFC1}|Simvars.csproj|c:\\msfs sdk\\samples\\visualstudio\\simvarwatcher\\simvarsviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AE5B4E28-2877-410C-A5EC-A828E3F3BFC1}|Simvars.csproj|solutionrelative:simvarsviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{AE5B4E28-2877-410C-A5EC-A828E3F3BFC1}|Simvars.csproj|C:\\MSFS SDK\\Samples\\VisualStudio\\SimvarWatcher\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{AE5B4E28-2877-410C-A5EC-A828E3F3BFC1}|Simvars.csproj|solutionrelative:mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{aa2115a1-9712-457b-9047-dbb71ca2cdd2}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "C:\\MSFS SDK\\Samples\\VisualStudio\\SimvarWatcher\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "MainWindow.xaml.cs",
+              "ToolTip": "C:\\MSFS SDK\\Samples\\VisualStudio\\SimvarWatcher\\MainWindow.xaml.cs",
+              "RelativeToolTip": "MainWindow.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-08T19:18:09.218Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SimvarsViewModel.cs",
+              "DocumentMoniker": "C:\\MSFS SDK\\Samples\\VisualStudio\\SimvarWatcher\\SimvarsViewModel.cs",
+              "RelativeDocumentMoniker": "SimvarsViewModel.cs",
+              "ToolTip": "C:\\MSFS SDK\\Samples\\VisualStudio\\SimvarWatcher\\SimvarsViewModel.cs",
+              "RelativeToolTip": "SimvarsViewModel.cs",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAywDYAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-08T17:31:28.898Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
