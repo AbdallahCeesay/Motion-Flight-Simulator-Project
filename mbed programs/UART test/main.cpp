@@ -14,8 +14,6 @@ static UnbufferedSerial serial_port(USBTX,USBRX);
 // method 2
 int8_t rx_data;
 
-
-// main() runs in its own thread in the OS
 int main()
 {
 
@@ -31,12 +29,12 @@ int main()
     // RXNE flag
     while(!(USART3->SR & 0x20));
 
-    // once received, read value
+    // once received,read value
     // N.B. reading clears flag automatically
     rx_data = USART3->DR;
 
     // print out data
-    std::cout << "Data received is: " << (unsigned int)rx_data << std::endl; //type casting
+    std::cout << "Data received is: " << (unsigned int)rx_data << std::endl; 
 
 }
 
