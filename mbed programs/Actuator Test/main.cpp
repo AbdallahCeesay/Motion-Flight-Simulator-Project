@@ -42,7 +42,7 @@ int main()
         std::cout << "rpwm_output: " << rpwm_output << endl;
         std::cout << "lpwm_output: " << lpwm_output << endl << endl;
 
-        wait_us(100000);
+        //wait_us(100000);
     }
 }
 
