@@ -18,7 +18,7 @@ void sendByteToCOM3(uint8_t value);
 
 
 int main() {
-    uint8_t dataToSend = 42;  // Example value
+    uint8_t dataToSend = 1;  // Example value
     sendByteToCOM3(dataToSend);
 
     std::cout << "(PC) DONE!" << std::endl;
