@@ -59,8 +59,6 @@ int main()
         std::cout << "act2_RPWM: " << act2_rpwm_output << endl;
         std::cout << "act2_LPWM: " << act2_lpwm_output << endl << endl;
 
-
-        //wait_us(100000);
     }
 }
 
