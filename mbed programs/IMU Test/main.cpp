@@ -1,31 +1,23 @@
-#include "mbed.h"
-#include <cstdio>
-#include <iostream>
+#include <mbed.h>
+#include <BNO080.h>
+#include <SerialStream.h>
 
-I2C i2c(PB_9, PB_8);
+#define i2cadd 0x4a
+#define i2cportspeed 100000
+
+Serial debugport(USBTX, USBRX);
+
+PinName SDA = PB_9;
+PinName SCL = PB_8;
+PinName INTPin = PA_6;
+PinName RSTPin = PA_5;
+
+BNO080I2C imu(&debugport, SDA, SCL, INTPin, RSTPin, i2cadd, i2cportspeed);
+
 
 int main()
 {
-    char data[2]; 
-    int BNO085_ADDR = 0x4A; 
-    int numberOfBytesToRead = 2;
-    i2c.frequency(1000000);
+    //BNO080I2C imu(&debugport, SDA, SCL, INTPin, RSTPin, i2cadd, i2cportspeed);
+//    debugport.write("Hello World",11);
 
-    while (true) {
-
-        int i2c_flag = i2c.read(BNO085_ADDR, data, numberOfBytesToRead, 1);
-
-        // Check if the read operation was successful
-        if (i2c_flag == 0) {
-            std::cout << "IMU Detected" << std::endl;
-
-            for (int i = 0; i < numberOfBytesToRead; i++) {
-                std::cout << "Data[" << i << "]: " << static_cast<int>(data[i]) << std::endl;
-            }
-        } else {
-            std::cout << "IMU NOT Detected. Error: " << i2c_flag << std::endl;
-        }
-
-        wait_us(1000000); 
-    }
 }
