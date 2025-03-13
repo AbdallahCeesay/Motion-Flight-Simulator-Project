@@ -8,8 +8,16 @@ DigitalOut led2(LED2);
 
 PwmOut act1_RPWM(PC_8); 
 PwmOut act1_LPWM(PC_9);
+
 PwmOut act2_RPWM(PE_5);
 PwmOut act2_LPWM(PE_6);
+
+PwmOut act3_RPWM(PB_8); 
+PwmOut act3_LPWM(PB_9);
+
+PwmOut act4_RPWM(PA_5);
+PwmOut act4_LPWM(PA_6);
+
 
 int main()
 {
@@ -27,6 +35,12 @@ int main()
 
             act2_LPWM.write(1.0f);
             act2_RPWM.write(0);
+
+            act3_LPWM.write(1.0f);
+            act3_RPWM.write(0);
+
+            act4_LPWM.write(1.0f);
+            act4_RPWM.write(0);
         }
 
         if (c == 'q') {
@@ -36,6 +50,12 @@ int main()
 
             act2_RPWM.write(1.0f);
             act2_LPWM.write(0);
+
+            act3_RPWM.write(1.0f);
+            act3_LPWM.write(0);
+
+            act4_RPWM.write(1.0f);
+            act4_LPWM.write(0);
         }
 
         if (c == 's') {
@@ -44,6 +64,12 @@ int main()
 
             act2_RPWM.write(0);
             act2_LPWM.write(0);
+
+            act3_RPWM.write(0);
+            act3_LPWM.write(0);
+
+            act4_RPWM.write(0);
+            act4_LPWM.write(0);
         }
 
         float act1_rpwm_output = act1_RPWM.read();
