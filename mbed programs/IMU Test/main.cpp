@@ -21,7 +21,11 @@ int main()
     BNO080I2C imu(&debugport, SDA, SCL, INTPin, RSTPin, i2cadd, i2cportspeed);
 
     //BNO080I2C imu(&debugport, SDA, SCL, INTPin, RSTPin, i2cadd, i2cportspeed);
-    debugport.printf("Hello World\n");
-    wait_us(10000);
+    while (true) {
+        
+        debugport.printf("Hello World\n");
+        wait_us(10000);
+
+    }
 
 }
