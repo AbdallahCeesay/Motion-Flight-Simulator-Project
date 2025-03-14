@@ -15,12 +15,13 @@ PinName RSTPin = PA_5;
 
 int main()
 {
-    BufferedSerial serial (USBTX, USBRX); // default baud rate set
+    BufferedSerial serial (USBTX, USBRX, 9600); // default baud rate set
     SerialStream<BufferedSerial> debugport(serial); // adapts the new serial class(BufferedSerial) to a stream instance 
 
     BNO080I2C imu(&debugport, SDA, SCL, INTPin, RSTPin, i2cadd, i2cportspeed);
-    
+
     //BNO080I2C imu(&debugport, SDA, SCL, INTPin, RSTPin, i2cadd, i2cportspeed);
-    debugport.write("Hello World",11);
+    debugport.printf("Hello World\n");
+    wait_us(10000);
 
 }
