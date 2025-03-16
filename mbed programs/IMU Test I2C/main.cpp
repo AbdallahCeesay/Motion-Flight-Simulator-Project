@@ -3,7 +3,7 @@
 #include <SerialStream.h>
 
 #define i2cadd 0x4A    //I2C Address
-#define i2cportspeed 100000
+#define i2cportspeed 400000
 
 // defining hardware pins
 PinName SDA = PB_9;
@@ -20,7 +20,9 @@ int main() {
 
     debugport.printf("============================================\n");
 
-    if(imu.begin()) printf("Init Success!\n"); // check that the init succeeded
+    if(imu.begin()) 
+    printf("Init Success!\n"); // check that the initialization succeeded
+
     else printf("Init Failed!\n");
 
     // Configure IMU reports
