@@ -12,7 +12,6 @@ PinName INTPin = PA_6;
 PinName RSTPin = PA_5;
 
 // GPIO
-DigitalOut rst(RSTPin);
 BufferedSerial serial(USBTX, USBRX, 9600);
 SerialStream<BufferedSerial> debugport(serial);
 BNO080I2C imu(&debugport, SDA, SCL, INTPin, RSTPin, i2cadd, i2cportspeed);
@@ -22,11 +21,6 @@ BNO080I2C imu(&debugport, SDA, SCL, INTPin, RSTPin, i2cadd, i2cportspeed);
 // ISRS
 
 int main() {
-
-    // reset the sensor -- active low
-    rst = 0;
-    wait_us(100000);    // 100ms
-    rst = 1;            // de-assert rst
 
     debugport.printf("============================================\n");
 
