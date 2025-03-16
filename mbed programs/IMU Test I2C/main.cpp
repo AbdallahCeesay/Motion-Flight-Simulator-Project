@@ -11,24 +11,33 @@ PinName SCL = PB_8;
 PinName INTPin = PA_6;
 PinName RSTPin = PA_5;
 
+// GPIO
+DigitalOut rst(RSTPin);
+BufferedSerial serial(USBTX, USBRX, 9600);
+SerialStream<BufferedSerial> debugport(serial);
+BNO080I2C imu(&debugport, SDA, SCL, INTPin, RSTPin, i2cadd, i2cportspeed);
+
+// functions
+
+// ISRS
+
 int main() {
 
-    BufferedSerial serial(USBTX, USBRX, 9600);
-    SerialStream<BufferedSerial> debugport(serial);
-
-    BNO080I2C imu(&debugport, SDA, SCL, INTPin, RSTPin, i2cadd, i2cportspeed);
+    // reset the sensor -- active low
+    rst = 0;
+    wait_us(100000);    // 100ms
+    rst = 1;            // de-assert rst
 
     debugport.printf("============================================\n");
 
-    imu.begin();
+    if(imu.begin()) printf("Init Success!\n"); // check that the init succeeded
+    else printf("Init Failed!\n");
 
     // Configure IMU reports
-    imu.enableReport(BNO080::ROTATION, 100);
+    imu.enableReport(BNO080::ROTATION, 10);
 
     while (true) {
         
-        ThisThread::sleep_for(1ms);
-
         if (imu.updateData()) {
 
             if (imu.hasNewData(BNO080::ROTATION)) {
@@ -38,11 +47,6 @@ int main() {
                 eulerDegrees.print(debugport, true);
                 debugport.printf("\n");
             }
-            // if (imu.hasNewData(BNO080::TOTAL_ACCELERATION)) {
-            //     debugport.printf("Acceleration: ");
-            //     imu.totalAcceleration.print(debugport, true);
-            //     debugport.printf("\n");
-            // }
         }
     }
 }
