@@ -2,23 +2,19 @@
 #include <BNO080.h>
 #include <SerialStream.h>
 
-#define i2cadd 0x4A    // Confirm I2C address with your hardware
+#define i2cadd 0x4A    //I2C Address
 #define i2cportspeed 100000
 
-// Define your hardware pins (adjust for your board)
+// defining hardware pins
 PinName SDA = PB_9;
 PinName SCL = PB_8;
 PinName INTPin = PA_6;
 PinName RSTPin = PA_5;
 
-// GPIO
 BufferedSerial serial(USBTX, USBRX, 9600);
 SerialStream<BufferedSerial> debugport(serial);
 BNO080I2C imu(&debugport, SDA, SCL, INTPin, RSTPin, i2cadd, i2cportspeed);
 
-// functions
-
-// ISRS
 
 int main() {
 
