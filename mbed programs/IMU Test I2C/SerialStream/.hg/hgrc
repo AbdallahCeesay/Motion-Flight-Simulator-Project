@@ -1,6 +1,6 @@
 # example repository config (see 'hg help config' for more info)
 [paths]
-mbed-studio-cache = c:\Users\Abdallah Ceesay\AppData\Local\Mbed Studio\library-cache\os.mbed.com\users\MultipleMonomials\code\SerialStream
+mbed-studio-cache = c:\Users\aceesay1\AppData\Local\Mbed Studio\library-cache\os.mbed.com\users\MultipleMonomials\code\SerialStream
 default = https://os.mbed.com/users/MultipleMonomials/code/SerialStream/
 
 # path aliases to other clones of this repo in URLs or filesystem paths
