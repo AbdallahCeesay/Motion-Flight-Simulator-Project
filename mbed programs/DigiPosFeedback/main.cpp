@@ -62,7 +62,9 @@ int main() {
                 if (currentPosition > maxStroke) {
                     currentPosition = maxStroke; // Clamp to maximum stroke
                 }
-            } else { // Actuator was retracting
+            } 
+            else 
+            { // Actuator was retracting
                 currentPosition -= distanceTraveled; // Decrease position
                 if (currentPosition < 0) {
                     currentPosition = 0; // Clamp to minimum stroke
