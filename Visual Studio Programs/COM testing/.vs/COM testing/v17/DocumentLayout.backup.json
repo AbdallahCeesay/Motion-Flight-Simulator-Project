@@ -5,9 +5,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{D274015F-61F8-429E-A4BC-EF595BD3BE65}|COM testing\\COM testing.vcxproj|C:\\Users\\Abdallah Ceesay\\Desktop\\Work\\Github Repos\\Motion-Flight-Simulator-Project\\Visual Studio Programs\\COM testing\\COM testing\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
       "RelativeMoniker": "D:0:0:{D274015F-61F8-429E-A4BC-EF595BD3BE65}|COM testing\\COM testing.vcxproj|solutionrelative:COM testing\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D274015F-61F8-429E-A4BC-EF595BD3BE65}|COM testing\\COM testing.vcxproj|C:\\PROGRAM FILES (X86)\\WINDOWS KITS\\10\\INCLUDE\\10.0.22621.0\\UM\\WINDOWS.H||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
     }
   ],
   "DocumentGroupContainers": [
@@ -29,24 +26,11 @@
               "Title": "main.cpp",
               "DocumentMoniker": "C:\\Users\\Abdallah Ceesay\\Desktop\\Work\\Github Repos\\Motion-Flight-Simulator-Project\\Visual Studio Programs\\COM testing\\COM testing\\main.cpp",
               "RelativeDocumentMoniker": "COM testing\\main.cpp",
-              "ToolTip": "C:\\Users\\Abdallah Ceesay\\Desktop\\Work\\Github Repos\\Motion-Flight-Simulator-Project\\Visual Studio Programs\\COM testing\\COM testing\\main.cpp",
-              "RelativeToolTip": "COM testing\\main.cpp",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABQAAAAaAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\Abdallah Ceesay\\Desktop\\Work\\Github Repos\\Motion-Flight-Simulator-Project\\Visual Studio Programs\\COM testing\\COM testing\\main.cpp*",
+              "RelativeToolTip": "COM testing\\main.cpp*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAC0AAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
               "WhenOpened": "2025-02-10T00:55:08.935Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Windows.h",
-              "DocumentMoniker": "C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.22621.0\\um\\Windows.h",
-              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\..\\..\\..\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.22621.0\\um\\Windows.h",
-              "ToolTip": "C:\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.22621.0\\um\\Windows.h",
-              "RelativeToolTip": "..\\..\\..\\..\\..\\..\\..\\..\\Program Files (x86)\\Windows Kits\\10\\Include\\10.0.22621.0\\um\\Windows.h",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
-              "WhenOpened": "2025-02-24T22:07:21.774Z",
               "EditorCaption": ""
             }
           ]
