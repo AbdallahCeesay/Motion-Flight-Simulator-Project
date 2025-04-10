@@ -44,7 +44,7 @@ int main()
 
         if (c == 'q') {
 
-           retractActuators();
+            retractActuators();
         }
 
         if (c == 's') {
