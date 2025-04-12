@@ -4,7 +4,7 @@
             "name": "Win32",
             "includePath": [
                 "${workspaceFolder}/**",
-                "C:/Users/Abdallah Ceesay/Desktop/Utilities/Eigen Library/eigen-3.4.0/"
+                "C:/Users/Abdallah Ceesay/Desktop/Utilities/EigenLibrary/eigen-3.4.0/"
             ],
             "defines": [
                 "_DEBUG",
@@ -14,7 +14,7 @@
             "windowsSdkVersion": "10.0.22621.0",
             "cStandard": "c17",
             "cppStandard": "c++17",
-            "intelliSenseMode": "windows-msvc-x64"
+            "intelliSenseMode": "gcc-x64"
         }
     ],
     "version": 4

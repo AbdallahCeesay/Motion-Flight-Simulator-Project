@@ -10,7 +10,7 @@
                 "${file}",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe",
-                "-I C:/Users/Abdallah Ceesay/Desktop/Utilities/Eigen Library/eigen-3.4.0/"
+                "-I C:/Users/Abdallah Ceesay/Desktop/Utilities/EigenLibrary/eigen-3.4.0/"
 
             ],
             "options": {

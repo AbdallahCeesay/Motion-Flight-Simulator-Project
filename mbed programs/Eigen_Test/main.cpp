@@ -1,10 +1,16 @@
 #include "mbed.h"
+#include <iostream>
+#include <Eigen/Dense>
 
-// main() runs in its own thread in the OS
+
+using namespace Eigen;
+using namespace std;
+
 int main()
 {
-    while (true) {
+    Matrix <float, 3, 3> matrixA;
+	matrixA.setZero();
 
-    }
+	cout << matrixA << endl;
 }
 
