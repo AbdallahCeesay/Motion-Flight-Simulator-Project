@@ -3,6 +3,8 @@
 #include <iostream>
 #include <string>
 
+using namespace std;
+
 DigitalOut led(LED1);
 DigitalOut led2(LED2);
 
@@ -38,8 +40,8 @@ int main()
         std::cout << "C: " << c << endl;
 
         if (c == 'e') {
-          
-          extendActuator();
+
+            extendActuator();
         }
 
         if (c == 'q') {
@@ -59,11 +61,11 @@ int main()
         float act2_lpwm_output = act2_LPWM.read();
 
         // for debugging
-        std::cout << "act1_RPWM: " << act1_rpwm_output << endl;
-        std::cout << "act1_LPWM: " << act1_lpwm_output << endl << endl;
+        cout << "act1_RPWM: " << act1_rpwm_output << endl;
+        cout << "act1_LPWM: " << act1_lpwm_output << endl << endl;
 
-        std::cout << "act2_RPWM: " << act2_rpwm_output << endl;
-        std::cout << "act2_LPWM: " << act2_lpwm_output << endl << endl;
+        cout << "act2_RPWM: " << act2_rpwm_output << endl;
+        cout << "act2_LPWM: " << act2_lpwm_output << endl << endl;
 
     }
 }
