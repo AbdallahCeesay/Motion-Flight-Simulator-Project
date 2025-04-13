@@ -54,81 +54,75 @@ int main()
             stopActuators();
         }
 
-        float act1_rpwm_output = act1_RPWM.read();
-        float act1_lpwm_output = act1_LPWM.read();
-
-        float act2_rpwm_output = act2_RPWM.read();
-        float act2_lpwm_output = act2_LPWM.read();
-
         // for debugging
-        cout << "act1_RPWM: " << act1_rpwm_output << endl;
-        cout << "act1_LPWM: " << act1_lpwm_output << endl << endl;
+        cout << "act1_RPWM: " << act1_RPWM.read() << endl;
+        cout << "act1_LPWM: " << act1_LPWM.read() << endl << endl;
 
-        cout << "act2_RPWM: " << act2_rpwm_output << endl;
-        cout << "act2_LPWM: " << act2_lpwm_output << endl << endl;
+        cout << "act2_RPWM: " << act2_RPWM.read() << endl;
+        cout << "act2_LPWM: " << act2_LPWM.read() << endl << endl;
 
     }
 }
 
 void extendActuator()
 {
-    act1_LPWM.write(1.0f); // extend actuator
-    act1_RPWM.write(0);
+    act1_LPWM = 0.6; // extend actuator
+    act1_RPWM = 0;
 
-    act2_LPWM.write(1.0f);
-    act2_RPWM.write(0);
+    act2_LPWM = 0.6;
+    act2_RPWM = 0;
 
-    act3_LPWM.write(1.0f);
-    act3_RPWM.write(0);
+    act3_LPWM = 1;
+    act3_RPWM = 0;
 
-    act4_LPWM.write(1.0f);
-    act4_RPWM.write(0);
+    act4_LPWM = 1;
+    act4_RPWM = 0;
 
-    act5_LPWM.write(1.0f);
-    act5_RPWM.write(0);
+    act5_LPWM = 1;
+    act5_RPWM = 0;
 
-    act6_LPWM.write(1.0f);
-    act6_RPWM.write(0);
+    act6_LPWM = 1;
+    act6_RPWM = 0;
 }
 
 void retractActuators() 
 {
-    act1_RPWM.write(1.0f); // retract actuator
-    act1_LPWM.write(0);
+    act1_RPWM = 0.6; // retract actuator
+    act1_LPWM = 0;
 
-    act2_RPWM.write(1.0f);
-    act2_LPWM.write(0);
+    act2_RPWM = 0.6;
+    act2_LPWM = 0;
 
-    act3_RPWM.write(1.0f);
-    act3_LPWM.write(0);
+    act3_RPWM = 1;
+    act3_LPWM = 0;
 
-    act4_RPWM.write(1.0f);
-    act4_LPWM.write(0);
+    act4_RPWM = 1;
+    act4_LPWM = 0;
 
-    act5_RPWM.write(1.0f);
-    act5_LPWM.write(0);
+    act5_RPWM = 1;
+    act5_LPWM = 0;
 
-    act6_RPWM.write(1.0f);
-    act6_LPWM.write(0);
+    act6_RPWM = 1;
+    act6_LPWM = 0;
 }
 
 void stopActuators()
 {
-    act1_RPWM.write(0); 
-    act1_LPWM.write(0);
+    act1_RPWM = 0; 
+    act1_LPWM = 0;
 
-    act2_RPWM.write(0);
-    act2_LPWM.write(0);
+    act2_RPWM = 0;
+    act2_LPWM = 0;
 
-    act3_RPWM.write(0);
-    act3_LPWM.write(0);
+    act3_RPWM = 0;
+    act3_LPWM = 0;
 
-    act4_RPWM.write(0);
-    act4_LPWM.write(0);
+    act4_RPWM = 0;
+    act4_LPWM = 0;
 
-    act5_RPWM.write(0);
-    act5_LPWM.write(0);
+    act5_RPWM = 0;
+    act5_LPWM = 0;
 
-    act6_RPWM.write(0);
-    act6_LPWM.write(0);
+    act6_RPWM = 0;
+    act6_LPWM = 0;
 }

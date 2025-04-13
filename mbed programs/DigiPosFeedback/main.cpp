@@ -6,9 +6,9 @@
 
 using namespace std::chrono;
 
-/* Implementation of Digital Position Feedback */
-PwmOut RPWM(PB_8); // Retract PWM
-PwmOut LPWM(PB_9); // Extend PWM
+/* Implementation of Digital Position Feedback for the old actuators (30mm/s) */
+PwmOut RPWM(PC_8); // Retract PWM
+PwmOut LPWM(PC_9); // Extend PWM
 
 Timer timer;                                        // Timer to measure elapsed time
 float delta_t = 0;                                  // Time elapsed in seconds

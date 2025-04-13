@@ -14,6 +14,7 @@ PwmOut LPWM(PB_9); // Extend PWM
 Timer timer;                                        // Timer to measure elapsed time
 float delta_t = 0;                                  // Time elapsed in seconds
 const float dutyCycle = 1;                          // Full speed
+const float avgActuatorSpeed = 51.565;              // Actuator speed in mm/s
 const float maxStroke = 300.0f;                     // Maximum actuator stroke in mm (0 to 300 mm)
 float currentPosition = 0.0f;                       // Current position of the actuator (distance traveled)
 bool isExtending = false;                           // Track if the actuator is extending
