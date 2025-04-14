@@ -6,10 +6,10 @@
 #define i2cportspeed 400000
 
 // defining hardware pins
-PinName SDA = PB_9;
-PinName SCL = PB_8;
-PinName INTPin = PA_6;
-PinName RSTPin = PA_5;
+PinName SCL = PB_10;
+PinName SDA = PB_11;
+PinName INTPin = PE_15;
+PinName RSTPin = PE_14;
 
 BufferedSerial serial(USBTX, USBRX, 115200);
 SerialStream<BufferedSerial> debugport(serial);
@@ -29,6 +29,8 @@ int main() {
     imu.enableReport(BNO080::ROTATION, 20);
 
     while (true) {
+
+       // wait_us(10);
         
         if (imu.updateData()) {
 
@@ -43,7 +45,6 @@ int main() {
                 debugport.printf("Pitch: %.2f\n", pitch);
                 debugport.printf("Yaw: %.2f\n", yaw);
                 debugport.printf("\n");
-         
             }
         }
     }

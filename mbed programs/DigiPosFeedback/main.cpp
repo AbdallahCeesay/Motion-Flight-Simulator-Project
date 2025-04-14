@@ -6,75 +6,107 @@
 
 using namespace std::chrono;
 
-/* Implementation of Digital Position Feedback for the old actuators (30mm/s) */
+#define MAXIMUM_BUFFER_SIZE 32
+
+// PWM outputs for actuator control
 PwmOut RPWM(PC_8); // Retract PWM
 PwmOut LPWM(PC_9); // Extend PWM
 
-Timer timer;                                        // Timer to measure elapsed time
-float delta_t = 0;                                  // Time elapsed in seconds
-const float dutyCycle = 1;                          // Full speed
-const float avgActuatorSpeed = 30.6827057;          // Actuator speed in mm/s
-const float maxStroke = 300.0f;                     // Maximum actuator stroke in mm (0 to 300 mm)
-float currentPosition = 0.0f;                       // Current position of the actuator (distance traveled)
-bool isExtending = false;                           // Track if the actuator is extending
+InterruptIn intRPWM(PC_8);
+InterruptIn intLPWM(PC_9);
+
+Timer timer;                                                 // Timer to measure elapsed time
+static const float DUTY_CYCLE = 1.0f;                        // Full speed
+static const float ACTUATOR_SPEED = 30.6827057f;             // Actuator speed in mm/s
+static const float MAX_STROKE = 300.0f;                      // Maximum actuator stroke in mm
+float currentPosition = 0.0f;                                // Current position of the stroke
+
+// Actuator states using scoped enum for type safety
+enum class ActuatorState {
+    EXTENDING,
+    RETRACTING,
+    STOPPED
+};
+
+
+static BufferedSerial terminal(USBTX, USBRX);
+
 
 int main() {
+
+    // setting up the serial terminal
+    terminal.set_baud(9600);
+    terminal.set_format(8, BufferedSerial::None, 1);            // 8 bits, no parity, 1 stop bit
+    terminal.set_blocking(false); 
+
+    // application buffer to receive the data 
+    char buffer[MAXIMUM_BUFFER_SIZE];
+
+    // Start the timer and set last update time to the current timer value
+    timer.start();
+    float lastUpdatedTime = duration_cast<milliseconds>(timer.elapsed_time()).count() / 1000.0f;
+    ActuatorState currentActuatorState = ActuatorState::STOPPED;  // Default state is stopped
+
     while (true) {
-        char c;
-        std::cin >> c;
 
-        if (c == 'e') { // Extend actuator
-            if (timer.elapsed_time().count() == 0) { // Start timer only if not already running
-                timer.start();
-                std::cout << "Timer starts... Extending actuator." << std::endl;
+        if (terminal.read(&buffer, 1)) {
+            char c;
+            std::cin >> c;
+            
+            if (c == 'e') {
+                currentActuatorState = ActuatorState::EXTENDING;
+                LPWM = DUTY_CYCLE;
+                RPWM = 0;
+                std::cout << "Extending Actuator" << std::endl;
             }
-
-            LPWM.write(1); 
-            RPWM.write(0); 
-            isExtending = true; // Set direction to extending
-        }
-
-        if (c == 'q') { // Retract actuator
-            if (timer.elapsed_time().count() == 0) { // Start timer only if not already running
-                timer.start();
-                std::cout << "Timer starts... Retracting actuator." << std::endl;
+            else if (c == 'q') {
+                currentActuatorState = ActuatorState::RETRACTING;
+                RPWM = DUTY_CYCLE;
+                LPWM = 0;
+                std::cout << "Retracting Actuator" << std::endl;
             }
-
-            RPWM.write(1); 
-            LPWM.write(0); 
-            isExtending = false; // Set direction to retracting
-        }
-
-        if (c == 's') { // Stop actuator and calculate position
-            delta_t = duration_cast<milliseconds>(timer.elapsed_time()).count() / 1000.0f; // Convert to seconds
-            std::cout << "Timer stopped!" << std::endl;
-            printf("The time taken was %.3f seconds\n\n", delta_t);
-
-            RPWM.write(0); // Stop actuator
-            LPWM.write(0);
-
-            timer.stop(); // Stop the timer
-
-            float distanceTraveled = (avgActuatorSpeed * dutyCycle) * delta_t;
-
-            if (isExtending) { // Actuator was extending
-                currentPosition += distanceTraveled; // Increase position
-                if (currentPosition > maxStroke) {
-                    currentPosition = maxStroke; // Clamp to maximum stroke
-                }
-            } 
-            else 
-            { // Actuator was retracting
-                currentPosition -= distanceTraveled; // Decrease position
-                if (currentPosition < 0) {
-                    currentPosition = 0; // Clamp to minimum stroke
-                }
+            else if (c == 's') {
+                currentActuatorState = ActuatorState::STOPPED;
+                RPWM = 0;
+                LPWM = 0;
+                std::cout << "Stopped Actuator" << std::endl;
             }
-
-            //std::cout << "Distance Traveled: " << distanceTraveled << " mm" << std::endl;
-            std::cout << "Current Position: " << currentPosition << " mm" << std::endl;
-
-            timer.reset(); // Reset the timer for the next operation
         }
+        
+        // ----- Continuous Update of Position -----
+        float currentTime = duration_cast<milliseconds>(timer.elapsed_time()).count() / 1000.0f;
+        float delta_t = currentTime - lastUpdatedTime;
+        
+        // Only update if some time has passed
+        if (delta_t > 0) {
+            switch (currentActuatorState) {
+                case ActuatorState::EXTENDING:
+                    currentPosition += ACTUATOR_SPEED * DUTY_CYCLE * delta_t;
+                    if (currentPosition > MAX_STROKE) {
+                        currentPosition = MAX_STROKE;
+                    }
+                    break;
+                    
+                case ActuatorState::RETRACTING:
+                    currentPosition -= ACTUATOR_SPEED * DUTY_CYCLE * delta_t;
+                    if (currentPosition < 0.0f) {
+                        currentPosition = 0.0f;
+                    }                
+                    break;
+                    
+                case ActuatorState::STOPPED:
+                    // No movement: position remains the same
+                    break;
+            }
+            
+            // Update lastUpdatedTime for the next loop iteration
+            lastUpdatedTime = currentTime;
+        }
+        
+        // Print the current position continuously
+        printf("Current Position: %.2f mm\n", currentPosition);
+        
+        // Sleep briefly to avoid spamming and allow other tasks to run
+        ThisThread::sleep_for(10ms);
     }
 }
