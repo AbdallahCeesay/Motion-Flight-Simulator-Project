@@ -20,13 +20,17 @@ int main() {
 
     debugport.printf("============================================\n");
 
-    if(imu.begin()) 
-    printf("Init Success!\n"); // check that the initialization succeeded
+    if(imu.begin()) {
 
-    else printf("Init Failed!\n");
+        printf("Initialization Success!\n"); // check that the initialization succeeded
+        //imu.setSensorOrientation(Quaternion orientation)  // sets the IMU coordinate frame to the Platform' coordinate frame
+    }
+
+    else printf("Initialization Failed!\n");
+
 
     // Configure IMU reports
-    imu.enableReport(BNO080::ROTATION, 20);
+    imu.enableReport(BNO080::GAME_ROTATION, 20);
 
     while (true) {
 
@@ -34,9 +38,9 @@ int main() {
         
         if (imu.updateData()) {
 
-            if (imu.hasNewData(BNO080::ROTATION)) {
+            if (imu.hasNewData(BNO080::GAME_ROTATION)) {
                 
-                TVector3 eulerDegrees = imu.rotationVector.euler() * (180.0 / M_PI);
+                TVector3 eulerDegrees = imu.gameRotationVector.euler() * (180.0 / M_PI);
                 float roll = eulerDegrees[0];               //x-axis
                 float pitch = eulerDegrees[1];              //y-axis
                 float yaw = eulerDegrees[2];                //z-axis
