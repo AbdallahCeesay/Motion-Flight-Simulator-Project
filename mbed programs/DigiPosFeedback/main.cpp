@@ -4,11 +4,10 @@
 #include <iomanip>
 
 using namespace std::chrono;
-using namespace std::chrono_literals;   // for 10ms literals
 
 // PWM outputs for actuator control
-PwmOut RPWM(PC_8); // Retract PWM
-PwmOut LPWM(PC_9); // Extend PWM
+PwmOut RPWM(PC_8);                                          // Retract PWM
+PwmOut LPWM(PC_9);                                          // Extend PWM
 
 Timer timer;                                                // Timer to measure elapsed time
 
@@ -25,23 +24,20 @@ enum class ActuatorState {
     STOPPED
 };
 
-// BufferedSerial for non‑blocking character I/O
 static BufferedSerial terminal(USBTX, USBRX, 9600);
 
 int main() {
-    // Non‑blocking reads on the terminal
-    terminal.set_blocking(false);
-
-    //std::cout << std::unitbuf;              // Make std::cout unbuffered: every insertion is flushed immediately
+    
+    terminal.set_blocking(false);                               // Non‑blocking reads on the terminal
 
     // Start timer and initialize last update timestamp
     timer.start();
     float lastTime = duration_cast<milliseconds>(timer.elapsed_time()).count() / 1000.0f;
 
-    ActuatorState state = ActuatorState::STOPPED;
+    ActuatorState state = ActuatorState::STOPPED;               // default state of the actuator is STOPPED (not moving)
 
     while (true) {
-
+        /* 1) Check for incoming character */
         if (terminal.readable()) {
             char c;
             if (terminal.read(&c, 1) == 1) {
@@ -50,29 +46,29 @@ int main() {
                         state = ActuatorState::EXTENDING;
                         LPWM.write(DUTY_CYCLE);
                         RPWM.write(0.0f);
-                        std::cout << "Extending\n";
                         break;
+
                     case 'q':
                         state = ActuatorState::RETRACTING;
                         RPWM.write(DUTY_CYCLE);
                         LPWM.write(0.0f);
-                        std::cout << "Retracting\n";
                         break;
+
                     case 's':
                         state = ActuatorState::STOPPED;
                         LPWM.write(0.0f);
                         RPWM.write(0.0f);
-                        std::cout << "Stopped\n";
+
                         break;
+
                     default:
-                        // ignore other characters
-                        break;
+                        
+                        break;                                  // ignore other characters
                 }
             }
         }
 
-
-        // 2) Continuous update of position
+        /* 2) Continuous update of position */
         float now = duration_cast<milliseconds>(timer.elapsed_time()).count() / 1000.0f;
         float dt  = now - lastTime;
         if (dt > 0) {
@@ -90,18 +86,13 @@ int main() {
                     }
                     break;
                 case ActuatorState::STOPPED:
-                    // ensure PWMs are off while stopped
-                    LPWM.write(0.0f);
-                    RPWM.write(0.0f);
+                   
                     break;
             }
             lastTime = now;
         }
 
-        // 3) Print current position via std::cout
         std::cout << "Position: " << std::fixed << std::setprecision(2) << currentPosition << " mm\n";
-            
-        // 4) Sleep briefly to throttle output and let other threads run
         ThisThread::sleep_for(10ms);
     }
 }
