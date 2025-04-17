@@ -1,25 +1,22 @@
 #include "mbed.h"
 #include <chrono>
-#include <cstdio>
 #include <iostream>
-#include <string>
+#include <iomanip>
 
 using namespace std::chrono;
-
-#define MAXIMUM_BUFFER_SIZE 32
+using namespace std::chrono_literals;   // for 10ms literals
 
 // PWM outputs for actuator control
 PwmOut RPWM(PC_8); // Retract PWM
 PwmOut LPWM(PC_9); // Extend PWM
 
-InterruptIn intRPWM(PC_8);
-InterruptIn intLPWM(PC_9);
+Timer timer;                                                // Timer to measure elapsed time
 
-Timer timer;                                                 // Timer to measure elapsed time
-static const float DUTY_CYCLE = 1.0f;                        // Full speed
-static const float ACTUATOR_SPEED = 30.6827057f;             // Actuator speed in mm/s
-static const float MAX_STROKE = 300.0f;                      // Maximum actuator stroke in mm
-float currentPosition = 0.0f;                                // Current position of the stroke
+static constexpr float DUTY_CYCLE     = 1.0f;               // Full speed
+static constexpr float ACTUATOR_SPEED = 30.6827057f;        // Actuator speed in mm/s
+static constexpr float MAX_STROKE     = 300.0f;             // Maximum actuator stroke in mm
+
+float currentPosition = 0.0f;                               // Current position of the stroke
 
 // Actuator states using scoped enum for type safety
 enum class ActuatorState {
@@ -28,85 +25,83 @@ enum class ActuatorState {
     STOPPED
 };
 
-
-static BufferedSerial terminal(USBTX, USBRX);
-
+// BufferedSerial for non‑blocking character I/O
+static BufferedSerial terminal(USBTX, USBRX, 9600);
 
 int main() {
+    // Non‑blocking reads on the terminal
+    terminal.set_blocking(false);
 
-    // setting up the serial terminal
-    terminal.set_baud(9600);
-    terminal.set_format(8, BufferedSerial::None, 1);            // 8 bits, no parity, 1 stop bit
-    terminal.set_blocking(false); 
+    //std::cout << std::unitbuf;              // Make std::cout unbuffered: every insertion is flushed immediately
 
-    // application buffer to receive the data 
-    char buffer[MAXIMUM_BUFFER_SIZE];
-
-    // Start the timer and set last update time to the current timer value
+    // Start timer and initialize last update timestamp
     timer.start();
-    float lastUpdatedTime = duration_cast<milliseconds>(timer.elapsed_time()).count() / 1000.0f;
-    ActuatorState currentActuatorState = ActuatorState::STOPPED;  // Default state is stopped
+    float lastTime = duration_cast<milliseconds>(timer.elapsed_time()).count() / 1000.0f;
+
+    ActuatorState state = ActuatorState::STOPPED;
 
     while (true) {
 
-        if (terminal.read(&buffer, 1)) {
+        if (terminal.readable()) {
             char c;
-            std::cin >> c;
-            
-            if (c == 'e') {
-                currentActuatorState = ActuatorState::EXTENDING;
-                LPWM = DUTY_CYCLE;
-                RPWM = 0;
-                std::cout << "Extending Actuator" << std::endl;
-            }
-            else if (c == 'q') {
-                currentActuatorState = ActuatorState::RETRACTING;
-                RPWM = DUTY_CYCLE;
-                LPWM = 0;
-                std::cout << "Retracting Actuator" << std::endl;
-            }
-            else if (c == 's') {
-                currentActuatorState = ActuatorState::STOPPED;
-                RPWM = 0;
-                LPWM = 0;
-                std::cout << "Stopped Actuator" << std::endl;
+            if (terminal.read(&c, 1) == 1) {
+                switch (c) {
+                    case 'e':
+                        state = ActuatorState::EXTENDING;
+                        LPWM.write(DUTY_CYCLE);
+                        RPWM.write(0.0f);
+                        std::cout << "Extending\n";
+                        break;
+                    case 'q':
+                        state = ActuatorState::RETRACTING;
+                        RPWM.write(DUTY_CYCLE);
+                        LPWM.write(0.0f);
+                        std::cout << "Retracting\n";
+                        break;
+                    case 's':
+                        state = ActuatorState::STOPPED;
+                        LPWM.write(0.0f);
+                        RPWM.write(0.0f);
+                        std::cout << "Stopped\n";
+                        break;
+                    default:
+                        // ignore other characters
+                        break;
+                }
             }
         }
-        
-        // ----- Continuous Update of Position -----
-        float currentTime = duration_cast<milliseconds>(timer.elapsed_time()).count() / 1000.0f;
-        float delta_t = currentTime - lastUpdatedTime;
-        
-        // Only update if some time has passed
-        if (delta_t > 0) {
-            switch (currentActuatorState) {
+
+
+        // 2) Continuous update of position
+        float now = duration_cast<milliseconds>(timer.elapsed_time()).count() / 1000.0f;
+        float dt  = now - lastTime;
+        if (dt > 0) {
+            switch (state) {
                 case ActuatorState::EXTENDING:
-                    currentPosition += ACTUATOR_SPEED * DUTY_CYCLE * delta_t;
+                    currentPosition += ACTUATOR_SPEED * dt;
                     if (currentPosition > MAX_STROKE) {
                         currentPosition = MAX_STROKE;
                     }
                     break;
-                    
                 case ActuatorState::RETRACTING:
-                    currentPosition -= ACTUATOR_SPEED * DUTY_CYCLE * delta_t;
+                    currentPosition -= ACTUATOR_SPEED * dt;
                     if (currentPosition < 0.0f) {
                         currentPosition = 0.0f;
-                    }                
+                    }
                     break;
-                    
                 case ActuatorState::STOPPED:
-                    // No movement: position remains the same
+                    // ensure PWMs are off while stopped
+                    LPWM.write(0.0f);
+                    RPWM.write(0.0f);
                     break;
             }
-            
-            // Update lastUpdatedTime for the next loop iteration
-            lastUpdatedTime = currentTime;
+            lastTime = now;
         }
-        
-        // Print the current position continuously
-        printf("Current Position: %.2f mm\n", currentPosition);
-        
-        // Sleep briefly to avoid spamming and allow other tasks to run
+
+        // 3) Print current position via std::cout
+        std::cout << "Position: " << std::fixed << std::setprecision(2) << currentPosition << " mm\n";
+            
+        // 4) Sleep briefly to throttle output and let other threads run
         ThisThread::sleep_for(10ms);
     }
 }
