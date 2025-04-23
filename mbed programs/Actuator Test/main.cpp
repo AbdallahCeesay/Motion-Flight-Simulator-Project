@@ -67,5 +67,7 @@ int main()
         actuator6.handleInput(inputChar);
         actuator6.updatePosition();
         actuator6.printPosition("Actuator 6");
+        
+        ThisThread::sleep_for(2ms);
     }
 }

@@ -34,8 +34,8 @@ int main() {
 
     while (true) {
 
-       // wait_us(10);
-        
+        std::cout << "\033[2J\033[H";       
+         
         if (imu.updateData()) {
 
             if (imu.hasNewData(BNO080::GAME_ROTATION)) {
