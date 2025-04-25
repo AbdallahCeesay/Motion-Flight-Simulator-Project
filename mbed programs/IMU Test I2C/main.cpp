@@ -1,5 +1,6 @@
 #include <mbed.h>
 #include <BNO080.h>
+#include <iostream>
 #include <SerialStream.h>
 
 #define i2cadd 0x4A    //I2C Address
@@ -34,7 +35,7 @@ int main() {
 
     while (true) {
 
-        std::cout << "\033[2J\033[H";       
+       // std::cout << "\033[2J\033[H";       
          
         if (imu.updateData()) {
 
@@ -51,5 +52,7 @@ int main() {
                 debugport.printf("\n");
             }
         }
+
+       ThisThread::sleep_for(2ms);eee
     }
 }

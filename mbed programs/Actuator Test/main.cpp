@@ -7,9 +7,6 @@
 
 using namespace std;
 
-DigitalOut led(LED1);
-DigitalOut led2(LED2);
-
 static BufferedSerial terminal(USBTX, USBRX, 115200);
 
 int main()
@@ -23,7 +20,6 @@ int main()
     DigitalPosFeedback actuator4 (PA_5, PA_6);
     DigitalPosFeedback actuator5 (PD_14, PD_15);
     DigitalPosFeedback actuator6 (PE_9, PE_11);
-
 
 
     while (true) {

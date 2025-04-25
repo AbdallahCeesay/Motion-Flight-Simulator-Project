@@ -33,9 +33,25 @@ class DigitalPosFeedback {
         // member functions
         void setDuty_Cycle(float speed);
         void setActuatorSpeed(float speed);
-        void handleInput(char c);
         void updatePosition();
+        void updateStateFromPWM();
         void printPosition(const char*);
+
+        // To test that the new implementation of the DPF is working correctly. 
+        void extend() {
+            LPWM.write(DUTY_CYCLE);
+            RPWM.write(0.0f);
+        }
+
+        void retract() {
+            RPWM.write(DUTY_CYCLE);
+            LPWM.write(0.0f);
+        }
+
+        void stop() {
+            RPWM.write(0.0f);
+            LPWM.write(0.0f);
+        }
 
 };
 
@@ -62,36 +78,24 @@ void DigitalPosFeedback::printPosition(const char* label) {
     std::cout << label << " Position: " << std::fixed << std::setprecision(2) << currentPosition << " mm\n";
 }
 
-void DigitalPosFeedback::handleInput(char c) {
-        
-    switch (c) {
-        case 'e':
-            state = ActuatorState::EXTENDING;
-            LPWM.write(DUTY_CYCLE);
-            RPWM.write(0.0f);
-            break;
-
-        case 'q':
-            state = ActuatorState::RETRACTING;
-            RPWM.write(DUTY_CYCLE);
-            LPWM.write(0.0f);
-            break;
-
-        case 's':
-            state = ActuatorState::STOPPED;
-            LPWM.write(0.0f);
-            RPWM.write(0.0f);
-            break;
-
-        default:
-            break;
+void DigitalPosFeedback::updateStateFromPWM() {
+    if (RPWM.read() > 0.0f && LPWM.read() == 0.0f) {
+        state = ActuatorState::RETRACTING;
+    } else if (LPWM.read() > 0.0f && RPWM.read() == 0.0f) {
+        state = ActuatorState::EXTENDING;
+    } else {
+        state = ActuatorState::STOPPED;
     }
 }
 
+
 void DigitalPosFeedback::updatePosition() {
+
+    updateStateFromPWM();                                                           //Automatically check pins to infer state
 
     float now = duration_cast<milliseconds>(timer.elapsed_time()).count() / 1000.0f;
     float dt  = now - lastTime;
+
     if (dt > 0) {
         switch (state)
         {
@@ -101,19 +105,22 @@ void DigitalPosFeedback::updatePosition() {
                     currentPosition = MAX_STROKE;
                 }
                 break;
+
             case ActuatorState::RETRACTING:
                 currentPosition -= ACTUATOR_SPEED * dt;
                 if (currentPosition < 0.0f) {
                     currentPosition = 0.0f;
                 }
                 break;
+
             case ActuatorState::STOPPED:
-                
                 break;
         }
+
         lastTime = now;
     }
 }
+
 
 int main() {
 
@@ -131,29 +138,37 @@ int main() {
         // ANSI characters. \033[2J → Clear the entire screen & \033[H → Move the cursor to the top-left corner (home)
 
         char inputChar = '\0';
-
-        if(terminal.readable()) {
+        if (terminal.readable()) {
             terminal.read(&inputChar, 1);
         }
 
+        if (inputChar == 'e') {
+            actuator1.extend();
+        }
+
+        if (inputChar == 'q') {
+            actuator1.retract();
+        }
+
+        if (inputChar == 's') {
+            actuator1.stop();
+        }
+
         /*Actuator 1*/
-        actuator1.handleInput(inputChar);
         actuator1.updatePosition();
         actuator1.printPosition("Actuator 1");
 
 
-        /*Actuator 2*/
-        actuator2.handleInput(inputChar);
-        actuator2.updatePosition();
-        actuator2.printPosition("Actuator 2");
+        // /*Actuator 2*/
+        // actuator2.updatePosition();
+        // actuator2.printPosition("Actuator 2");
 
 
-        /*Actuator 3*/
-        actuator3.handleInput(inputChar);
-        actuator3.updatePosition();
-        actuator3.printPosition("Actuator 3");
+        // /*Actuator 3*/
+        // actuator3.updatePosition();
+        // actuator3.printPosition("Actuator 3");
 
-        ThisThread::sleep_for(2ms);
+        // ThisThread::sleep_for(2ms);
     }
 }
 
