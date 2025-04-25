@@ -28,39 +28,28 @@ int main()
         std::cout << "\033[2J\033[H";                           
         // ANSI characters. \033[2J → Clear the entire screen & \033[H → Move the cursor to the top-left corner (home)
 
-        char inputChar = '\0';
-
-        if(terminal.readable()) {
-            terminal.read(&inputChar, 1);
-        }
-
+   
         /*Actuator 1*/
-        actuator1.handleInput(inputChar);
         actuator1.updatePosition();
         actuator1.printPosition("Actuator 1");
 
         /*Actuator 2*/
-        actuator2.handleInput(inputChar);
         actuator2.updatePosition();
         actuator2.printPosition("Actuator 2");
 
         /*Actuator 3*/
-        actuator3.handleInput(inputChar);
         actuator3.updatePosition();
         actuator3.printPosition("Actuator 3");
 
         /*Actuator 4*/
-        actuator4.handleInput(inputChar);
         actuator4.updatePosition();
         actuator4.printPosition("Actuator 4");
 
         /*Actuator 5*/
-        actuator5.handleInput(inputChar);
         actuator5.updatePosition();
         actuator5.printPosition("Actuator 5");
 
         /*Actuator 6*/
-        actuator6.handleInput(inputChar);
         actuator6.updatePosition();
         actuator6.printPosition("Actuator 6");
         

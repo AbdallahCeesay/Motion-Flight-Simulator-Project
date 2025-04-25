@@ -3,6 +3,7 @@
 #include <iostream>
 #include <Eigen/Dense>
 #include <array>
+#include "DigiPosFeedback_Lib/DigiPosFeedback.hpp"
 
 using namespace std;
 using namespace Eigen;

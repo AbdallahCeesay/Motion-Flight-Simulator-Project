@@ -4,7 +4,7 @@
 #include <iomanip>
 
 using namespace std::chrono;
-static BufferedSerial terminal(USBTX, USBRX, 115200);
+static BufferedSerial terminal(USBTX, USBRX, 9600);
 
 class DigitalPosFeedback {
     private:
@@ -36,6 +36,22 @@ class DigitalPosFeedback {
         void updatePosition();
         void updateStateFromPWM();
         void printPosition(const char*);
+
+        // To test that the new implementation of the DPF is working correctly. 
+        void extend() {
+            LPWM.write(DUTY_CYCLE);
+            RPWM.write(0.0f);
+        }
+
+        void retract() {
+            RPWM.write(DUTY_CYCLE);
+            LPWM.write(0.0f);
+        }
+
+        void stop() {
+            RPWM.write(0.0f);
+            LPWM.write(0.0f);
+        }
 
 };
 
@@ -121,20 +137,38 @@ int main() {
         std::cout << "\033[2J\033[H";                           
         // ANSI characters. \033[2J → Clear the entire screen & \033[H → Move the cursor to the top-left corner (home)
 
+        char inputChar = '\0';
+        if (terminal.readable()) {
+            terminal.read(&inputChar, 1);
+        }
+
+        if (inputChar == 'e') {
+            actuator1.extend();
+        }
+
+        if (inputChar == 'q') {
+            actuator1.retract();
+        }
+
+        if (inputChar == 's') {
+            actuator1.stop();
+        }
 
         /*Actuator 1*/
         actuator1.updatePosition();
         actuator1.printPosition("Actuator 1");
 
-        /*Actuator 2*/
-        actuator2.updatePosition();
-        actuator2.printPosition("Actuator 2");
 
-        /*Actuator 3*/
-        actuator3.updatePosition();
-        actuator3.printPosition("Actuator 3");
+        // /*Actuator 2*/
+        // actuator2.updatePosition();
+        // actuator2.printPosition("Actuator 2");
 
-        ThisThread::sleep_for(2ms);
+
+        // /*Actuator 3*/
+        // actuator3.updatePosition();
+        // actuator3.printPosition("Actuator 3");
+
+        // ThisThread::sleep_for(2ms);
     }
 }
 
