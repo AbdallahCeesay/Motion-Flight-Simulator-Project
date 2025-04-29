@@ -1,40 +1,40 @@
-#ifndef DIGITALPOSFEEDBACK_HPP
-#define DIGITALPOSFEEDBACK_HPP
+
+#ifndef DIGI_POS_FEEDBACK_HPP
+#define DIGI_POS_FEEDBACK_HPP
 
 #include "mbed.h"
 #include <chrono>
 
 class DigitalPosFeedback {
-private:
-    float DUTY_CYCLE = 1.0f;                                // Full speed (default)
-    float ACTUATOR_SPEED = 30.6827057f;                     // Speed in mm/s
-    static constexpr float MAX_STROKE = 300.0f;             // Max actuator stroke in mm
+    private:
+        float DUTY_CYCLE;
+        float ACTUATOR_SPEED;
+        static constexpr float MAX_STROKE = 300.0f;
 
-    Timer timer;                                            // For time tracking
-    float lastTime;
+        Timer timer;
+        float lastTime;
 
-    PwmOut RPWM;                                      // PWM pin for retraction
-    PwmOut LPWM;                                      // PWM pin for extension
+        PwmOut RPWM;
+        PwmOut LPWM;
 
-public:
-    float currentPosition = 0.0f;                           // Position estimate in mm
+    public:
+        float currentPosition;
 
-    enum class ActuatorState {
-        EXTENDING,
-        RETRACTING,
-        STOPPED
-    };
+        enum class ActuatorState {
+            EXTENDING,
+            RETRACTING,
+            STOPPED
+        };
 
-    ActuatorState state = ActuatorState::STOPPED;
+        ActuatorState state;
 
-    DigitalPosFeedback(PinName rpwm, PinName lpwm, float actuatorspeed = 30.6827057f, float duty = 1.0f);
+        DigitalPosFeedback(PinName rpwm, PinName lpwm, float actuatorspeed = 30.6827057f, float duty = 1.0f);
 
-    // Public methods
-    void setDuty_Cycle(float duty);
-    void setActuatorSpeed(float speed);
-    void updateStateFromPWM();
-    void updatePosition();
-    void printPosition(const char* label);
+        void setDuty_Cycle(float speed);
+        void setActuatorSpeed(float speed);
+        void handleInput(char c);
+        void updatePosition();
+        void printPosition(const char* label);
 };
 
 #endif 

@@ -33,7 +33,7 @@ void DigitalPosFeedback::updateStateFromPWM() {
 }
 
 void DigitalPosFeedback::updatePosition() {
-    updateStateFromPWM();  // Sync state based on current PWM pin output
+    updateStateFromPWM();                   // Sync state based on current PWM pin output
 
     float now = duration_cast<milliseconds>(timer.elapsed_time()).count() / 1000.0f;
     float dt = now - lastTime;
@@ -60,3 +60,33 @@ void DigitalPosFeedback::updatePosition() {
         lastTime = now;
     }
 }
+
+void DigitalPosFeedback::extend() {
+    LPWM.write(DUTY_CYCLE);
+    RPWM.write(0.0f);
+}
+
+void DigitalPosFeedback::retract() {
+    RPWM.write(DUTY_CYCLE);
+    LPWM.write(0.0f);
+}
+
+void DigitalPosFeedback::stop() {
+    RPWM.write(0.0f);
+    LPWM.write(0.0f);
+}
+
+void DigitalPosFeedback::moveToTarget() {
+    updatePosition();  // update the current position
+
+    float error = targetPosition - currentPosition;
+
+    if (fabs(error) < tolerance) {
+        stop();
+    } else if (error > 0) {
+        extend();
+    } else {
+        retract();
+    }
+}
+

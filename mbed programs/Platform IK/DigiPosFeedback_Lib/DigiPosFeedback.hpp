@@ -18,6 +18,8 @@ private:
 
 public:
     float currentPosition = 0.0f;                           // Position estimate in mm
+    float targetPosition = 0.0f;                            // New: target position to move toward
+    float tolerance = 10.0f;                                 // New: acceptable error margin
 
     enum class ActuatorState {
         EXTENDING,
@@ -29,12 +31,19 @@ public:
 
     DigitalPosFeedback(PinName rpwm, PinName lpwm, float actuatorspeed = 30.6827057f, float duty = 1.0f);
 
-    // Public methods
     void setDuty_Cycle(float duty);
     void setActuatorSpeed(float speed);
     void updateStateFromPWM();
     void updatePosition();
+    void moveToTarget();       // <--- NEW function declaration
     void printPosition(const char* label);
+    void extend();
+    void retract();
+    void stop();
+
+    float getDutyCycle() const {
+        return DUTY_CYCLE;
+    }
 };
 
 #endif 
