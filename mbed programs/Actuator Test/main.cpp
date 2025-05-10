@@ -21,7 +21,7 @@ int main()
     DigitalPosFeedback actuator2 (PE_5, PE_6, ACTUATOR_SPEED, 0.6);
     DigitalPosFeedback actuator3 (PB_8, PB_9);
     DigitalPosFeedback actuator4 (PA_5, PA_6);
-    DigitalPosFeedback actuator5 (PA_0, PB_0);
+    DigitalPosFeedback actuator5 (PD_13, PD_12);
     DigitalPosFeedback actuator6 (PE_9, PE_11);
 
 
